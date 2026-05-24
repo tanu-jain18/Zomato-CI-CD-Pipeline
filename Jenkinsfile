@@ -35,8 +35,7 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                sh 'docker --version'
-                echo 'Docker build completed'
+                echo 'Skipping Docker temporarily'
             }
         }
 
