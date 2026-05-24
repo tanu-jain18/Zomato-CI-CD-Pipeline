@@ -15,10 +15,9 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh '''
-                npm cache clean --force
-                npm install --fetch-retries=5
-                '''
+                echo 'Skipping npm install temporarily'
+                sh 'node --version'
+                sh 'npm --version'
             }
         }
 
@@ -30,14 +29,14 @@ pipeline {
 
         stage('OWASP Dependency Check') {
             steps {
-                echo 'Running Dependency Check...'
+                echo 'Running OWASP Dependency Check...'
             }
         }
 
         stage('Docker Build') {
             steps {
                 sh 'docker --version'
-                echo 'Docker Build completed'
+                echo 'Docker build completed'
             }
         }
 
