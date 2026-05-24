@@ -15,7 +15,10 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                sh '''
+                npm cache clean --force
+                npm install --fetch-retries=5
+                '''
             }
         }
 
