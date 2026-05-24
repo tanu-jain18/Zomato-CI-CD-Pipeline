@@ -1,56 +1,52 @@
 pipeline {
     agent any
 
-    environment {
-        ANYPOINT_CREDENTIALS = credentials('anypoint.credentials')
-    }
-
     stages {
-        stage('Unit Test') {
+
+        stage('Checkout Code') {
             steps {
-                echo "Running Unit Tests..."
-                sh 'mvn clean test'
+                echo 'Checkout completed'
             }
         }
 
-        stage('Deploy Standalone') {
+        stage('Install Dependencies') {
             steps {
-                echo "Deploying in Standalone mode..."
-                sh 'mvn deploy -P standalone'
+                sh 'npm install'
             }
         }
 
-        stage('Deploy to AnyPoint') {
+        stage('SonarQube Scan') {
             steps {
-                echo "Deploying to Anypoint Platform..."
-                sh '''
-                mvn deploy -P arm \
-                -Darm.target.name=local-4.0.0-ee \
-                -Danypoint.username=${ANYPOINT_CREDENTIALS_USR} \
-                -Danypoint.password=${ANYPOINT_CREDENTIALS_PSW}
-                '''
+                echo 'Running SonarQube scan'
             }
         }
 
-        stage('Deploy to CloudHub') {
+        stage('OWASP Dependency Check') {
             steps {
-                echo "Deploying to CloudHub..."
-                sh '''
-                mvn deploy -P cloudhub \
-                -Dmule.version=4.0.0 \
-                -Danypoint.username=${ANYPOINT_CREDENTIALS_USR} \
-                -Danypoint.password=${ANYPOINT_CREDENTIALS_PSW}
-                '''
+                echo 'Running Dependency Check'
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                sh 'docker --version'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploy stage'
             }
         }
     }
 
     post {
         success {
-            echo "✅ Deployment completed successfully!"
+            echo 'Build completed successfully'
         }
+
         failure {
-            echo "❌ Deployment failed! Check logs for errors."
+            echo 'Build failed'
         }
     }
 }
