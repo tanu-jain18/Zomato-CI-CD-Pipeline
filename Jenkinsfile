@@ -36,7 +36,8 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                echo 'Skipping Docker temporarily'
+             sh 'docker --version'
+             sh 'docker build -t zomato-app .'
             }
         }
 
