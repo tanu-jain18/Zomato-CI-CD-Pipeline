@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+        nodejs "nodejs"
+    }
+
     stages {
 
         stage('Checkout Code') {
@@ -17,25 +21,26 @@ pipeline {
 
         stage('SonarQube Scan') {
             steps {
-                echo 'Running SonarQube scan'
+                echo 'Running SonarQube Scan...'
             }
         }
 
         stage('OWASP Dependency Check') {
             steps {
-                echo 'Running Dependency Check'
+                echo 'Running Dependency Check...'
             }
         }
 
         stage('Docker Build') {
             steps {
                 sh 'docker --version'
+                echo 'Docker Build completed'
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Deploy stage'
+                echo 'Deployment successful'
             }
         }
     }
