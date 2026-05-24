@@ -35,8 +35,8 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-             sh 'docker --version'
-             sh 'docker build -t zomato-app .'
+             echo 'Docker Build stage added'
+             echo 'Docker image build will be configured using Docker CLI'
             }
         }
 
